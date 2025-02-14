@@ -147,10 +147,10 @@ if ($stmt->execute()) {
     <table>
         <thead>
             <tr>
-                <th>Serial No</th>
-                <th>Roll No</th>
-                <th>Name</th>
-                <th>Attendance</th>
+                <th>Serial No  </th>
+                <th>Roll No  </th>
+                <th>Name  </th>
+                <th>Attendance  </th>
             </tr>
         </thead>
         <tbody>

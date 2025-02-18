@@ -47,7 +47,7 @@
            
 
             <div class="dropdown-section">
-                <label for="branch">Branch:</label>
+                <label for="branch">Branch selection:</label>
                 <select id="branch" name="branch" class="form-control" readonly>
                     <option value="">Select Branch</option>
                 </select>
@@ -59,7 +59,7 @@
             </div>
 
             <div class="dropdown-section">
-                <label for="semester">Semester:</label>
+                <label for="semester">Semester selection:</label>
                 <select id="semester" name="semester" required>
                     <option value="">Select Semester</option>
                 </select>

@@ -64,7 +64,7 @@
                     <option value="">Select Semester</option>
                 </select>
             </div>
-
+<p>I have to change somthing in my project so i can look the changes in jenkin </p>
             <div class="dropdown-section">
                 <label for="course">Course:</label>
                 <select id="course" name="course" required>
@@ -89,7 +89,7 @@
             </div>
 
             <div class="dropdown-section">
-                <label for="batch">Batch:</label>
+                <label for="batch">Batches :</label>
                 <select id="batch" name="batch" required>
                     <option value="">Select Batch</option>
                 </select>

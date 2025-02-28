@@ -6,10 +6,12 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
-            steps {
-                git 'https://github.com/your-user/your-repo.git'
-            }
+        sstage('Checkout Code') {
+    steps {
+        git credentialsId: 'github-token', url: 'https://github.com/rutu1603/sample.git', branch: 'main'
+    }
+}
+
         }
         stage('Build') {
             steps {

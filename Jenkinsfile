@@ -11,9 +11,9 @@ pipeline {
         stage('Deploy to XAMPP') {
             steps {
                 sh '''
-                sudo rm -rf /opt/lampp/htdocs/php_project
-                sudo cp -r $WORKSPACE /opt/lampp/htdocs/php_project
-                sudo chown -R www-data:www-data /opt/lampp/htdocs/php_project
+                sudo rm -rf /opt/lampp/htdocs/sample
+                sudo cp -r $WORKSPACE /opt/lampp/htdocs/sample
+                sudo chown -R www-data:www-data /opt/lampp/htdocs/sample
                 '''
             }
         }

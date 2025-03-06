@@ -1,42 +1,29 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven 3' // Ensure Maven is configured in Jenkins
-    }
-
     stages {
-        stage('Checkout Code') {  // ✅ Fixed typo
+        stage('Clone Repository') {
             steps {
-                git credentialsId: 'github-token', url: 'https://github.com/rutu1603/sample.git', branch: 'main'
+                git 'https://github.com/yourusername/your-php-project.git'
             }
         }
 
-        stage('Build') {
+        stage('Deploy to XAMPP') {
             steps {
-                sh 'mvn clean install'
+                sh '''
+                sudo rm -rf /opt/lampp/htdocs/php_project
+                sudo cp -r $WORKSPACE /opt/lampp/htdocs/php_project
+                sudo chown -R www-data:www-data /opt/lampp/htdocs/php_project
+                '''
             }
         }
 
-        stage('Test') {
+        stage('Restart XAMPP') {
             steps {
-                sh 'mvn test'
+                sh '''
+                sudo /opt/lampp/lampp restart
+                '''
             }
-        }
-
-        stage('Deploy') {
-            steps {
-                sh 'scp target/*.war user@server:/path/to/deploy'
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'Pipeline executed successfully!'
-        }
-        failure {
-            echo 'Pipeline execution failed!'
         }
     }
 }

@@ -8,39 +8,16 @@ pipeline {
             }
         }
 
-      stage('Deploy to XAMPP') {
-
- 
-
+     stage('Build Docker Image') {
             steps {
- 
-
-                sh '''
- 
-
-                sudo rm -rf /opt/lampp/htdocs/sample
- 
-
-                sudo cp -r $WORKSPACE /opt/lampp/htdocs/sample
- 
-
-                sudo chown -R www-data:www-data /opt/lampp/htdocs/sample
- 
-
-                '''
- 
-
+                sh 'docker build -t php-sample-app .'
             }
- 
-
         }
 
-
-        stage('Restart XAMPP') {
+        stage('Deploy Container') {
             steps {
-                sh '''
-                sudo /opt/lampp/lampp restart
-                '''
+                sh 'docker rm -f php-sample-container || true'
+                sh 'docker run -d -p 8080:80 --name php-sample-container php-sample-app'
             }
         }
     }

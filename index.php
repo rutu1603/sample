@@ -29,7 +29,7 @@ session_start();
     <!-- Navbar just below the college name, integrated into the layout -->
     <div class="navbar-container">
         <div class="navbar">
-            <a href="index.php">git   </a>
+            <a href="index.php">Home   </a>
             <a href="faculty.php">Faculty    </a>
             <a href="report.php">Admin    </a>
             <!-- <a href="Executive.php">Executive</a> -->

@@ -8,15 +8,13 @@ pipeline {
             }
         }
 
-        stage('Deploy to XAMPP') {
-            steps {
-                sh '''
-                sudo rm -rf /opt/lampp/htdocs/sample
-                sudo cp -r $WORKSPACE /opt/lampp/htdocs/sample
-                sudo chown -R www-data:www-data /opt/lampp/htdocs/sample
-                '''
-            }
-        }
+      stage('Deploy to XAMPP') {
+    steps {
+        sh 'rm -rf /opt/lampp/htdocs/my-php-app/*'
+        sh 'cp -r * /opt/lampp/htdocs/my-php-app/'
+    }
+}
+
 
         stage('Restart XAMPP') {
             steps {

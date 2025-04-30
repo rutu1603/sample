@@ -2,40 +2,35 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'sample-php'
-        CONTAINER_NAME = 'sample'
-        DOCKER_PORT = '8080:80' // Change if your container uses different ports
+        IMAGE_NAME = 'sample-app'
+        CONTAINER_NAME = 'sample-container'
     }
 
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/rutu1603/sample.git'
+                git 'https://github.com/rutu1603/sample.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                bat 'docker build -t %IMAGE_NAME% .'
             }
         }
 
         stage('Stop and Remove Existing Container') {
             steps {
-                script {
-                    sh '''
-                    if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
-                        docker stop $CONTAINER_NAME || true
-                        docker rm $CONTAINER_NAME || true
-                    fi
-                    '''
-                }
+                bat '''
+                docker stop %CONTAINER_NAME% || exit 0
+                docker rm %CONTAINER_NAME% || exit 0
+                '''
             }
         }
 
         stage('Run Docker Container') {
             steps {
-                sh 'docker run -d -p $DOCKER_PORT --name $CONTAINER_NAME $IMAGE_NAME'
+                bat 'docker run -d -p 8080:8080 --name %CONTAINER_NAME% %IMAGE_NAME%'
             }
         }
     }

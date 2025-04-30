@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = 'sample-php'
+        CONTAINER_NAME = 'sample'
+        DOCKER_PORT = '8080:80' // Change if your container uses different ports
+    }
+
     stages {
         stage('Clone Repository') {
             steps {
@@ -8,24 +14,28 @@ pipeline {
             }
         }
 
-        stage('Clean XAMPP Directory') {
+        stage('Build Docker Image') {
             steps {
-                sh 'sudo rm -rf /opt/lampp/htdocs/my-php-app/*'
+                sh 'docker build -t $IMAGE_NAME .'
             }
         }
 
-        stage('Deploy to XAMPP') {
+        stage('Stop and Remove Existing Container') {
             steps {
-                sh '''
-                sudo cp -r $WORKSPACE/* /opt/lampp/htdocs/my-php-app/
-                sudo chown -R www-data:www-data /opt/lampp/htdocs/my-php-app/
-                '''
+                script {
+                    sh '''
+                    if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
+                        docker stop $CONTAINER_NAME || true
+                        docker rm $CONTAINER_NAME || true
+                    fi
+                    '''
+                }
             }
         }
 
-        stage('Restart XAMPP') {
+        stage('Run Docker Container') {
             steps {
-                sh 'sudo /opt/lampp/lampp restart'
+                sh 'docker run -d -p $DOCKER_PORT --name $CONTAINER_NAME $IMAGE_NAME'
             }
         }
     }

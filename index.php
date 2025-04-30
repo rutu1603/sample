@@ -16,7 +16,7 @@ session_start();
 <header>
     <div class="header-content">
         <img src="vit.jpg" alt="College Logo" class="logo">
-        <h1>Vidyalankar Institute of Technology</h1>
+        <h1>VidyalankarInstitute of Technology</h1>
         <div class="header-buttons">
             <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
                 <button onclick="location.href='logout.php'">Logout</button>

@@ -8,27 +8,24 @@ pipeline {
             }
         }
 
+        stage('Clean XAMPP Directory') {
+            steps {
+                sh 'sudo rm -rf /opt/lampp/htdocs/my-php-app/*'
+            }
+        }
+
         stage('Deploy to XAMPP') {
             steps {
                 sh '''
-                    # Define path to XAMPP htdocs
-                    DEST="/opt/lampp/htdocs/sample"
-
-                    # Remove old code if exists
-                    sudo rm -rf $DEST
-
-                    # Copy current workspace to XAMPP
-                    sudo cp -r $WORKSPACE $DEST
-
-                    # Fix permissions
-                    sudo chown -R www-data:www-data $DEST
+                sudo cp -r $WORKSPACE/* /opt/lampp/htdocs/my-php-app/
+                sudo chown -R www-data:www-data /opt/lampp/htdocs/my-php-app/
                 '''
             }
         }
 
-        stage('Restart Apache (Optional)') {
+        stage('Restart XAMPP') {
             steps {
-                sh 'sudo /opt/lampp/lampp restartapache'
+                sh 'sudo /opt/lampp/lampp restart'
             }
         }
     }

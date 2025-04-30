@@ -10,8 +10,8 @@ pipeline {
 
       stage('Deploy to XAMPP') {
     steps {
-        sh 'rm -rf /opt/lampp/htdocs/my-php-app/*'
-        sh 'cp -r * /opt/lampp/htdocs/my-php-app/'
+        sh 'rm -rf /opt/lampp/htdocs/sample/*'
+        sh 'cp -r * /opt/lampp/htdocs/sample/'
     }
 }
 

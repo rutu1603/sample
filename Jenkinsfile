@@ -1,37 +1,34 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = 'sample-app'
-        CONTAINER_NAME = 'sample-container'
-    }
-
     stages {
         stage('Clone Repository') {
             steps {
-               git branch: 'main', url: 'https://github.com/rutu1603/sample.git'
-
+                git branch: 'main', url: 'https://github.com/rutu1603/sample.git'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Deploy to XAMPP') {
             steps {
-                bat 'docker build -t %IMAGE_NAME% .'
-            }
-        }
+                sh '''
+                    # Define path to XAMPP htdocs
+                    DEST="/opt/lampp/htdocs/sample"
 
-        stage('Stop and Remove Existing Container') {
-            steps {
-                bat '''
-                docker stop %CONTAINER_NAME% || exit 0
-                docker rm %CONTAINER_NAME% || exit 0
+                    # Remove old code if exists
+                    sudo rm -rf $DEST
+
+                    # Copy current workspace to XAMPP
+                    sudo cp -r $WORKSPACE $DEST
+
+                    # Fix permissions
+                    sudo chown -R www-data:www-data $DEST
                 '''
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Restart Apache (Optional)') {
             steps {
-                bat 'docker run -d -p 8080:8080 --name %CONTAINER_NAME% %IMAGE_NAME%'
+                sh 'sudo /opt/lampp/lampp restartapache'
             }
         }
     }
